@@ -15,10 +15,10 @@
 
 ## API Key
 
-本项目不提供服务器，你需要使用自己的API Key
-希望你可以支持本项目，使用我的Xiaomi MiMo邀请链接，我们都可以获得体验金：
-邀请码：G7PJPS
-注册：https://platform.xiaomimimo.com?ref=G7PJPS
+本项目不提供服务器，你需要使用自己的API Key  
+希望你可以支持本项目，使用我的Xiaomi MiMo邀请链接，我们都可以获得体验金：  
+邀请码：G7PJPS  
+注册：https://platform.xiaomimimo.com?ref=G7PJPS  
 
 ---
 
