@@ -1,69 +1,46 @@
-# Voice Chat Python 实现
+# Voice Chat Python
 
 [中文](README.md) | [English](README_EN.md)
 
----
+这是 Xiaomi MiMo 的 Python 语音对话示例，支持麦克风 VAD 录音、ASR、LLM 对话、TTS 播放和可选唤醒词。
 
 ## 快速开始
 
-### 1. 安装依赖
-
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. 配置API Key
-
-```bash
 cp config_example.py config.py
+python main.py
 ```
 
-编辑 `config.py`，填写从 [Xiaomi MiMo控制台](https://platform.xiaomimimo.com) 获得的API Key。
+`python main.py noise` 可用于测试环境噪音，辅助调整 `SILENCE_THRESHOLD`。
 
-### 3. 运行程序
+## 配置
 
-```bash
-# 语音对话模式
-python example.py
-
-# 测试环境噪音
-python example.py noise
+```python
+# TTS
+TTS_MODEL = "mimo-v2.5-tts"  # mimo-v2.5-tts, mimo-v2.5-tts-voicedesign, mimo-v2.5-tts-voiceclone
+TTS_VOICE = "冰糖"
+TTS_STREAMING = True
+TTS_VOICEDESIGN_DESCRIPTION = "Young female, extreme close-up ..."
+TTS_VOICECLONE_FILEPATH = "./xxx.mp3"
 ```
 
+TTS 三种模型的配置含义：
 
-## 配置说明
+- `mimo-v2.5-tts`：使用预置音色，读取 `TTS_VOICE`。
+- `mimo-v2.5-tts-voicedesign`：使用文本设计音色，读取 `TTS_VOICEDESIGN_DESCRIPTION`。
+- `mimo-v2.5-tts-voiceclone`：使用音色复刻，读取 `TTS_VOICECLONE_FILEPATH`，支持 `.mp3` 或 `.wav`。
 
-在 `config.py` 中可以调整以下参数：
+## LLM 配置
 
-| 参数 | 说明 | 默认值 |
-|------|------|--------|
-| `API_KEY` | Xiaomi MiMo API Key | - |
-| `TTS_VOICE` | TTS语音角色 | "冰糖" |
-| `SYSTEM_PROMPT` | 系统提示词 | 智能助手提示词 |
-| `SILENCE_THRESHOLD` | 静音阈值 | 800 |
-| `SILENCE_DURATION` | 静音时长（秒） | 2.0 |
-| `MIN_RECORD_DURATION` | 最小录音时长（秒） | 0.5 |
-| `START_DURATION` | 开始录音持续时间（秒） | 0.1 |
-| `TTS_STREAMING` | 是否使用流式播放 | True |
+`LLM_SYSTEM_PROMPT` 是系统提示词，用来定义整段对话的长期规则和角色设定，例如“用简洁中文回答，不要使用 Markdown”。它会作为 `system` 消息保留在会话历史里，影响后续每一轮对话。
 
----
+## 唤醒词
 
-## 文件结构
+启用唤醒词后，只有 ASR 文本包含 `WAKE_WORD`，或当前仍处于唤醒状态时，才会把 ASR 文本发送给 LLM。每次 LLM 回复并完成 TTS 播放后，唤醒状态会继续维持 `WAKE_ACTIVE_SECONDS` 秒。
 
-```text
-python/
-├── example.py              # 主程序入口
-├── xiaomi_mimo_asr.py      # 核心库（ASR、Chat、TTS）
-├── config.py               # 配置文件（需要创建）
-├── config_example.py       # 配置示例
-├── requirements.txt        # 依赖列表
-└── README.md               # 说明文档
+```python
+WAKE_WORD_ENABLED = False
+WAKE_WORD = "小爱"
+WAKE_ACTIVE_SECONDS = 8.0
 ```
-
----
-
-## 使用说明
-
-1. **语音对话**：运行 `python example.py`，开始语音对话
-2. **噪音测试**：运行 `python example.py noise`，测试环境噪音水平
-3. **停止程序**：按 `Ctrl+C` 停止程序

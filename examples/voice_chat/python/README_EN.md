@@ -1,68 +1,44 @@
-# Voice Chat Python Implementation
+# Voice Chat Python
 
 [中文](README.md) | [English](README_EN.md)
 
----
+Python voice chat demo for Xiaomi MiMo. It supports VAD recording, ASR, LLM chat, TTS playback, and an optional wake word.
 
 ## Quick Start
 
-### 1. Install Dependencies
-
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Configure API Key
-
-```bash
 cp config_example.py config.py
-```
-
-Edit `config.py` and fill in the API Key obtained from [Xiaomi MiMo Console](https://platform.xiaomimimo.com).
-
-### 3. Run the Program
-
-```bash
-# Voice chat mode
-python example.py
-
-# Test environment noise
-python example.py noise
+python main.py
 ```
 
 ## Configuration
 
-You can adjust the following parameters in `config.py`:
-
-| Parameter | Description | Default Value |
-|-----------|-------------|---------------|
-| `API_KEY` | Xiaomi MiMo API Key | - |
-| `TTS_VOICE` | TTS voice role | "冰糖" |
-| `SYSTEM_PROMPT` | System prompt | Smart assistant prompt |
-| `SILENCE_THRESHOLD` | Silence threshold | 800 |
-| `SILENCE_DURATION` | Silence duration (seconds) | 2.0 |
-| `MIN_RECORD_DURATION` | Minimum recording duration (seconds) | 0.5 |
-| `START_DURATION` | Start recording duration (seconds) | 0.1 |
-| `TTS_STREAMING` | Whether to use streaming playback | True |
-
----
-
-## File Structure
-
-```text
-python/
-├── example.py              # Main program entry
-├── xiaomi_mimo_asr.py      # Core library (ASR, Chat, TTS)
-├── config.py               # Configuration file (needs to be created)
-├── config_example.py       # Configuration example
-├── requirements.txt        # Dependencies list
-└── README.md               # Documentation
+```python
+# TTS
+TTS_MODEL = "mimo-v2.5-tts"  # mimo-v2.5-tts, mimo-v2.5-tts-voicedesign, mimo-v2.5-tts-voiceclone
+TTS_VOICE = "冰糖"
+TTS_STREAMING = True
+TTS_VOICEDESIGN_DESCRIPTION = "Young female, extreme close-up ..."
+TTS_VOICECLONE_FILEPATH = "./xxx.mp3"
 ```
 
----
+TTS model behavior:
 
-## Usage Instructions
+- `mimo-v2.5-tts`: preset voice, uses `TTS_VOICE`.
+- `mimo-v2.5-tts-voicedesign`: text-based voice design, uses `TTS_VOICEDESIGN_DESCRIPTION`.
+- `mimo-v2.5-tts-voiceclone`: voice cloning from a local `.mp3` or `.wav`, uses `TTS_VOICECLONE_FILEPATH`.
 
-1. **Voice Chat**: Run `python example.py` to start voice chat
-2. **Noise Test**: Run `python example.py noise` to test environment noise level
-3. **Stop Program**: Press `Ctrl+C` to stop the program
+## LLM Config
+
+`LLM_SYSTEM_PROMPT` is the persistent role/instruction for the whole conversation. It is stored as a `system` message and affects every later turn.
+
+## Wake Word
+
+When wake word mode is enabled, ASR text is sent to the LLM only if it contains `WAKE_WORD` or the session is still awake. After each LLM reply and TTS playback, the awake state is extended by `WAKE_ACTIVE_SECONDS`.
+
+```python
+WAKE_WORD_ENABLED = False
+WAKE_WORD = "小爱"
+WAKE_ACTIVE_SECONDS = 8.0
+```
