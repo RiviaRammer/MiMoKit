@@ -2,7 +2,7 @@
 
 [中文](README.md) | [English](README_EN.md)
 
-Arduino voice-chat example for M5Stack Cardputer-Adv. The flow is push-to-talk recording, streaming ASR, streaming LLM, and streaming TTS playback.
+Arduino voice-chat example for M5Stack Cardputer. The flow is push-to-talk recording, streaming ASR, streaming LLM, and streaming TTS playback.
 
 ## Features
 

@@ -2,7 +2,7 @@
 
 [中文](README.md) | [English](README_EN.md)
 
-这是面向 M5Stack Cardputer-Adv 的 Arduino 语音对话示例。流程为按键录音、流式 ASR、流式 LLM、流式 TTS 播放。
+这是面向 M5Stack Cardputer 的 Arduino 语音对话示例。流程为按键录音、流式 ASR、流式 LLM、流式 TTS 播放。
 
 ## 特性
 
