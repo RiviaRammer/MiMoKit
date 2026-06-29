@@ -1,6 +1,6 @@
 ﻿# Tab5 Arduino Voice Chat
 
-Arduino voice-chat example for M5Stack Tab5. This version follows the Cardputer-Adv flow: tap-to-talk recording, streaming ASR, streaming LLM, and streaming TTS playback.
+Arduino voice-chat example for M5Stack Tab5. This version follows the Cardputer flow: tap-to-talk recording, streaming ASR, streaming LLM, and streaming TTS playback.
 
 ## Differences from Cardputer-Adv
 
